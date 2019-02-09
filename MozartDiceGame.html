@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>Mozart Dice Game</title>
+    <link href="MozartDiceGame.css" rel="stylesheet" type="text/css">    
+    <script type="text/javascript" src="https://www.guitarland.com/javascripts/Tone.js"></script>
+	<script type="text/javascript" src="https://www.guitarland.com/javascripts/StartAudioContext.js"></script>
+
+    <script src="https://www.guitarland.com/javascripts/lilyPondAdapter.js"></script>
+<!--    <script src="../lilyPondAdapterJS/lilyPondAdapter.js"></script> -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
+    
+    
+</head>
+<body>
+<h1>Mozart Dice Game</h1>
+<div id='myP5Container'></div>
+
+<p>Mozart created this composition game by composing eleven interchangable variations for each measure of an 8 measure Minuet composition. All 11 variations for each measure were written on cards and placed in 8 different stacks (one for each measure). The game was played by rolling a pair of dice and selecting one of the eleven choices from each of the 8 stacks of this short composition. After the measures were selected then the new composition could be performed.  We'll simulated that game with a computer generated roll of the dice for each of the measure and assemble a composition.  Click the 'Roll the Dice' button to hear a randomly generated composition composed my Mozart with dice rolling done by the computer.
+</p>
+<button id="playNewTune" class="playButton">Roll the Dice and Create a New Tune</button>
+<button id="repeatTune" class="playButton">Repeat</button>
+
+<div id="compositionData"></div>
+<form id='myForm' name="myForm">
+
+| melody volume:<select name="synth_volume" id="synth_volume">
+    <option value="-Infinity">-Infinity</option>
+    <option value="-30">-30</option>
+    <option value="-25">-25</option>
+    <option value="-20">-20</option>
+    <option value="-15">-15</option>
+    <option value="-10">-10</option>
+    <option value="-5">-5</option>
+    <option value="0" selected>0</option>
+</select>
+</form>
+
+<p>Lily Pond file</p>
+<textarea rows=10 cols=100 id="lilyPondCode"></textarea>
+
+
+
+    <script>
+        Tone.Transport.bpm = 80;
+        Tone.Transport.timeSignature = 3;
+    </script>
+    <script src="MozartDiceGame.js"></script>
+    <script>
+		var mybutton1 = document.getElementById("playNewTune");
+		mybutton1.onclick = PlayNewTune;
+		var mybutton2 = document.getElementById("repeatTune");
+		mybutton2.onclick = repeatTune;
+
+		var mySynthVolume = document.getElementById("synth_volume");
+		mySynthVolume.onchange = updateMelodyVolume;
+    </script>
+
+<script>
+// p5 code (trying to make dice animation)
+  var pg;
+  function setup(){
+    var myCanvas = createCanvas(600, 180, WEBGL);
+    myCanvas.parent('myP5Container');
+    pg = createGraphics(200, 200);
+    pg.textSize(70);
+    pg2 = createGraphics(200, 200);
+    pg2.textSize(70);
+  }
+
+function draw(){
+  background(0,120,0);
+  
+  translate(-140, 0, 0);
+//  normalMaterial();
+  push();
+  rotateZ(frameCount * 0.02);
+  rotateX(frameCount * 0.02);
+  rotateY(frameCount * 0.02);
+  pg.background(240);
+  pg.strokeWeight(10);
+  pg.rect(0,0,200,200);
+  pg.textSize(42);
+  pg.text('  ?        ?\n        \n  ?        ?', 0, 60);
+  //pass image as texture
+  texture(pg);
+  box(60, 60, 60);
+  pop();
+  
+  translate(240, 0, 0);
+  push();
+  rotateZ(frameCount * 0.03);
+  rotateX(frameCount * 0.03);
+  rotateY(frameCount * 0.03);
+  pg2.background(240);
+  pg2.strokeWeight(10);
+  pg2.rect(0,0,200,200);
+  pg2.textSize(42);
+  pg2.text('  ?         \n       ?\n           ?', 0, 60);
+//  pg2.text('  ?         \n        \n            ?', 0, 60);
+  texture(pg2);
+  box(60, 60, 60);
+  pop();
+}
+  
+</script>
+
+
+
+</body>
+</html>
